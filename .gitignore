@@ -209,3 +209,4 @@ __marimo__/
 # --- Custom Ignored Files (Datasets) ---
 *.csv
 *.zip
+data/
