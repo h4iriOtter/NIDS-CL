@@ -13,7 +13,7 @@ from model import SimpleCNN1D
 import utils
 
 # --- AVALANCHE IMPORTS ---
-from avalanche.benchmarks.generators import benchmark_from_datasets
+from avalanche.benchmarks import benchmark_from_datasets
 from avalanche.evaluation.metrics import (
     forgetting_metrics, accuracy_metrics, loss_metrics, 
     bwt_metrics, StreamConfusionMatrix, class_accuracy_metrics
