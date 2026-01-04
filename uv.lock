@@ -938,6 +938,7 @@ dependencies = [
     { name = "torch" },
     { name = "torchaudio" },
     { name = "torchvision" },
+    { name = "wandb" },
 ]
 
 [package.metadata]
@@ -950,6 +951,7 @@ requires-dist = [
     { name = "torch", specifier = ">=2.9.1" },
     { name = "torchaudio", specifier = ">=2.9.1" },
     { name = "torchvision", specifier = ">=0.24.1" },
+    { name = "wandb" },
 ]
 
 [[package]]
