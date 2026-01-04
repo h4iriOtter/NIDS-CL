@@ -214,8 +214,4 @@ benchmark_data/
 *.npy
 saved_models/
 __pycache__/
-<<<<<<< HEAD
 wandb/
-=======
-wandb/
->>>>>>> f2cc47d5827639b6147fef24baeb538c82312ec8
