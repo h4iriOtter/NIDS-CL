@@ -210,3 +210,8 @@ __marimo__/
 *.csv
 *.zip
 data/
+benchmark_data/
+*.npy
+saved_models/
+__pycache__/
+wandb/
