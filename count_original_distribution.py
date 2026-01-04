@@ -15,7 +15,7 @@ input_filename = "NF-UQ-NIDS-v2.csv"
 input_path = os.path.join(dataset_dir, input_filename)
 
 # --- OUTPUT: WHERE TO SAVE THE COUNT REPORT ---
-evidence_folder = os.path.join(repo_root, 'experiment_results')
+evidence_folder = os.path.join(repo_root, 'datapreparation_results')
 os.makedirs(evidence_folder, exist_ok=True)
 
 report_csv_path = os.path.join(evidence_folder, 'original_dataset_counts.csv')

@@ -1,7 +1,7 @@
 [project]
 name = "nids-cl"
 version = "0.1.0"
-description = "Add your description here"
+description = "dependencies"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -13,4 +13,5 @@ dependencies = [
     "torch>=2.9.1",
     "torchaudio>=2.9.1",
     "torchvision>=0.24.1",
+    "wandb"
 ]

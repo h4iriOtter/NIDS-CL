@@ -15,7 +15,7 @@ input_filename = "NF-UQ-NIDS-v2_10Percent.csv"
 input_path = os.path.join(repo_root, 'data', input_filename)
 
 # --- OUTPUT: REPORT ---
-evidence_folder = os.path.join(repo_root, 'experiment_results')
+evidence_folder = os.path.join(repo_root, 'datapreparation_results')
 os.makedirs(evidence_folder, exist_ok=True)
 
 report_csv_path = os.path.join(evidence_folder, 'stratified_dataset_check.csv')

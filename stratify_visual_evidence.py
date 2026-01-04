@@ -20,7 +20,7 @@ data_output_dir = os.path.join(repo_root, 'data')
 os.makedirs(data_output_dir, exist_ok=True)
 data_output_path = os.path.join(data_output_dir, 'NF-UQ-NIDS-v2_10Percent.csv')
 
-evidence_folder = os.path.join(repo_root, 'experiment_results')
+evidence_folder = os.path.join(repo_root, 'datapreparation_results')
 os.makedirs(evidence_folder, exist_ok=True)
 report_csv_path = os.path.join(evidence_folder, 'stratification_report.csv')
 report_img_path = os.path.join(evidence_folder, 'stratification_evidence.png')
