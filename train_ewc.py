@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 import wandb
 
 # --- CUSTOM IMPORTS ---
-from model import SimpleCNN1D
+from model import LiteNet
 import utils
 
 # --- AVALANCHE IMPORTS ---
@@ -126,7 +126,7 @@ print(f"   Number of experiences: {len(benchmark.train_stream)}")
 # STEP 3: DEFINE YOUR MODEL
 # ==========================================
 print("\n[Step 3] Defining Model...")
-model = SimpleCNN1D(num_classes=NUM_CLASSES)
+model = LiteNet(num_classes=NUM_CLASSES)
 model = model.to(DEVICE)
 
 # ==========================================
@@ -140,7 +140,7 @@ logger = [
     WandBLogger(
         project_name="NIDS_Continual_Learning",
         run_name="EWC_Test_Run_20 epoch",
-        params={"config": {"strategy": "EWC", "lambda": 10000, "epochs": EPOCHS}}
+        params={"config": {"strategy": "EWC", "lambda": 5000, "epochs": EPOCHS}}
     )
 ]
 
@@ -159,7 +159,7 @@ eval_plugin = EvaluationPlugin(
 # ==========================================
 print("\n[Step 5] Initializing EWC Strategy...")
 
-optimizer = AdamW(model.parameters(), lr=0.00001, weight_decay=0.0001)
+optimizer = AdamW(model.parameters(), lr=0.001, weight_decay=0.0001)
 criterion = nn.CrossEntropyLoss()
 
 scheduler = ReduceLROnPlateau(optimizer, 'min', patience=3, factor=0.1)
@@ -169,7 +169,7 @@ strategy = EWC(
     model=model,
     optimizer=optimizer,
     criterion=criterion,
-    ewc_lambda=10000.0,
+    ewc_lambda=5000.0,
     mode="online",
     decay_factor=0.9,
     train_mb_size=BATCH_SIZE,

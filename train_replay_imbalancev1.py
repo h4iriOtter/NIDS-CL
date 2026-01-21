@@ -150,7 +150,7 @@ logger = [
     TextLogger(open('training_log_replay.txt', 'w')),
     WandBLogger(
         project_name="NIDS_Continual_Learning",
-        run_name="Replay_Test_Run_20Epoch",
+        run_name="Replay_BoostedTest_Run_20Epoch",
         params={"config": {"strategy": "Replay", "mem_size": MEM_SIZE, "epochs": EPOCHS}}
     )
 ]

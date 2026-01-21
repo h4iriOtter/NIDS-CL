@@ -1,80 +1,80 @@
 -- >> Start of training phase << --
 -- Starting training on experience 0 from train stream --
 Epoch 0 ended.
-	Loss_Epoch/train_phase/train_stream = 0.3873
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9231
+	Loss_Epoch/train_phase/train_stream = 0.0457
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9763
 Epoch 1 ended.
-	Loss_Epoch/train_phase/train_stream = 0.2243
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9786
-Epoch 2 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1908
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9811
-Epoch 3 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1648
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9817
-Epoch 4 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1487
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9818
-Epoch 5 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1399
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9820
-Epoch 6 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1343
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9823
-Epoch 7 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1295
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9825
-Epoch 8 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1229
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9829
-Epoch 9 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1208
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9831
-Epoch 10 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1184
+	Loss_Epoch/train_phase/train_stream = 0.0238
 	Top1_Acc_Epoch/train_phase/train_stream = 0.9832
+Epoch 2 ended.
+	Loss_Epoch/train_phase/train_stream = 0.0224
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9836
+Epoch 3 ended.
+	Loss_Epoch/train_phase/train_stream = 0.0216
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9838
+Epoch 4 ended.
+	Loss_Epoch/train_phase/train_stream = 0.0210
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9839
+Epoch 5 ended.
+	Loss_Epoch/train_phase/train_stream = 0.0206
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9841
+Epoch 6 ended.
+	Loss_Epoch/train_phase/train_stream = 0.0204
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9843
+Epoch 7 ended.
+	Loss_Epoch/train_phase/train_stream = 0.0201
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9844
+Epoch 8 ended.
+	Loss_Epoch/train_phase/train_stream = 0.0200
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9845
+Epoch 9 ended.
+	Loss_Epoch/train_phase/train_stream = 0.0198
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9845
+Epoch 10 ended.
+	Loss_Epoch/train_phase/train_stream = 0.0197
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9846
 Epoch 11 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1169
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9834
+	Loss_Epoch/train_phase/train_stream = 0.0196
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9847
 Epoch 12 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1167
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9836
+	Loss_Epoch/train_phase/train_stream = 0.0195
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9847
 Epoch 13 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1145
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9836
+	Loss_Epoch/train_phase/train_stream = 0.0194
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9847
 Epoch 14 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1132
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9837
+	Loss_Epoch/train_phase/train_stream = 0.0194
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9847
 Epoch 15 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1136
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9837
+	Loss_Epoch/train_phase/train_stream = 0.0193
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9848
 Epoch 16 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1133
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9838
+	Loss_Epoch/train_phase/train_stream = 0.0193
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9848
 Epoch 17 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1111
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9838
+	Loss_Epoch/train_phase/train_stream = 0.0192
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9848
 Epoch 18 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1105
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9838
+	Loss_Epoch/train_phase/train_stream = 0.0192
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9848
 Epoch 19 ended.
-	Loss_Epoch/train_phase/train_stream = 0.1120
-	Top1_Acc_Epoch/train_phase/train_stream = 0.9838
+	Loss_Epoch/train_phase/train_stream = 0.0192
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9848
 -- >> End of training phase << --
 -- >> Start of eval phase << --
 -- Starting eval on experience 0 from test stream --
 > Eval on experience 0 from test stream ended.
-	Loss_Exp/eval_phase/test_stream/Exp000 = 0.1047
-	Top1_Acc_Exp/eval_phase/test_stream/Exp000 = 0.9842
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/11 = 0.9513
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/13 = 0.9722
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/2 = 0.9492
+	Loss_Exp/eval_phase/test_stream/Exp000 = 0.0199
+	Top1_Acc_Exp/eval_phase/test_stream/Exp000 = 0.9855
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/11 = 0.9310
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/13 = 0.9167
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/2 = 0.9916
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/5 = 0.9944
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/6 = 0.9784
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/6 = 0.9843
 -- Starting eval on experience 1 from test stream --
 > Eval on experience 1 from test stream ended.
-	Loss_Exp/eval_phase/test_stream/Exp001 = 23.4704
-	Top1_Acc_Exp/eval_phase/test_stream/Exp001 = 0.0091
+	Loss_Exp/eval_phase/test_stream/Exp001 = 11.1331
+	Top1_Acc_Exp/eval_phase/test_stream/Exp001 = 0.0243
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/11 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/13 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/2 = 0.0000
@@ -87,19 +87,19 @@ Epoch 19 ended.
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/17 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/18 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/19 = 0.0000
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/2 = 0.0155
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/5 = 0.0259
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/6 = 0.0099
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/2 = 0.0553
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/5 = 0.0340
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/6 = 0.0085
 -- >> End of eval phase << --
 	ConfusionMatrix_Stream/eval_phase/test_stream = 
 tensor([[     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,      0,      0,      0,      1,      2,      0,      0,
-              0,      0,    250,      0,      0,      0,      0,      0,      0,
+        [     0,      0,      3,      0,      0,      0,    250,      0,      0,
+              0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,   3344,      0,      0,  75267,   5914,      0,      0,
-              0,      0,   8220,      0,    773,      0,      0,      0,      0,
+        [     0,      0,   7071,      0,      0,  74520,  11200,      0,      0,
+              0,      0,    726,      0,      1,      0,      0,      0,      0,
               0,      0],
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
@@ -107,14 +107,11 @@ tensor([[     0,      0,      0,      0,      0,      0,      0,      0,      0,
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,    447,      0,      0, 274215,  17229,      0,      0,
-              0,      0,  13449,      0,     31,      0,      0,      0,      0,
+        [     0,      0,    220,      0,      0, 274459,  30674,      0,      0,
+              0,      0,     18,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,   1329,      0,      0,  10167, 244799,      0,      0,
-              0,      0,   3847,      0,    645,      0,      0,      0,      0,
-              0,      0],
-        [     0,      0,      0,      0,      0,      0,      0,      0,      0,
-              0,      0,      0,      0,      0,      0,      0,      0,      0,
+        [     0,      0,   2046,      0,      0,  10142, 246259,      0,      0,
+              0,      0,   2340,      0,      0,      0,      0,      0,      0,
               0,      0],
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
@@ -125,112 +122,115 @@ tensor([[     0,      0,      0,      0,      0,      0,      0,      0,      0,
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,     53,      0,      0,      9,   1738,      0,      0,
-              0,      0,  37402,      0,    113,      0,      0,      0,      0,
+        [     0,      0,      0,      0,      0,      0,      0,      0,      0,
+              0,      0,      0,      0,      0,      0,      0,      0,      0,
+              0,      0],
+        [     0,      0,     72,      0,      0,     10,   2600,      0,      0,
+              0,      0,  36603,      0,     30,      0,      0,      0,      0,
               0,      0],
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
-              0,      0,      1,      0,     35,      0,      0,      0,      0,
+              0,      0,      3,      0,     33,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,    110,      0,      0,    418,   4948,      0,      0,
-              0,      0,   4777,      0,     13,      0,      0,      0,      0,
+        [     0,      0,    441,      0,      0,    105,   9720,      0,      0,
+              0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,      6,      0,      0,     71,      3,      0,      0,
-              0,      0,     32,      0,      4,      0,      0,      0,      0,
+        [     0,      0,     42,      0,      0,     63,     10,      0,      0,
+              0,      0,      1,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,     55,      0,      0,   1253,   7828,      0,      0,
-              0,      0,   8162,      0,      1,      0,      0,      0,      0,
+        [     0,      0,     34,      0,      0,   1188,  16077,      0,      0,
+              0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,      0,      0,      0,      0,      6,      0,      0,
-              0,      0,     36,      0,     10,      0,      0,      0,      0,
+        [     0,      0,      1,      0,      0,      4,     47,      0,      0,
+              0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,   6785,      0,      0,  48358,   1140,      0,      0,
-              0,      0,    430,      0,      8,      0,      0,      0,      0,
+        [     0,      0,     39,      0,      0,  55054,   1628,      0,      0,
+              0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,   9356,      0,      0,   9253,   6788,      0,      0,
-              0,      0,  11333,      0,     95,      0,      0,      0,      0,
+        [     0,      0,  17906,      0,      0,    837,  18040,      0,      0,
+              0,      0,     42,      0,      0,      0,      0,      0,      0,
               0,      0]])
-	Loss_Stream/eval_phase/test_stream = 7.3405
+	Loss_Stream/eval_phase/test_stream = 3.4614
 	StreamBWT/eval_phase/test_stream = 0.0000
 	StreamForgetting/eval_phase/test_stream = 0.0000
-	Top1_Acc_Stream/eval_phase/test_stream = 0.6822
+	Top1_Acc_Stream/eval_phase/test_stream = 0.6879
 -- >> Start of training phase << --
 -- Starting training on experience 1 from train stream --
 Epoch 0 ended.
-	Loss_Epoch/train_phase/train_stream = 2.3067
-	Top1_Acc_Epoch/train_phase/train_stream = 0.5344
+	Loss_Epoch/train_phase/train_stream = 0.2370
+	Top1_Acc_Epoch/train_phase/train_stream = 0.8818
 Epoch 1 ended.
-	Loss_Epoch/train_phase/train_stream = 1.4973
-	Top1_Acc_Epoch/train_phase/train_stream = 0.7211
+	Loss_Epoch/train_phase/train_stream = 0.1094
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9353
 Epoch 2 ended.
-	Loss_Epoch/train_phase/train_stream = 1.1473
-	Top1_Acc_Epoch/train_phase/train_stream = 0.7736
+	Loss_Epoch/train_phase/train_stream = 0.0857
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9460
 Epoch 3 ended.
-	Loss_Epoch/train_phase/train_stream = 0.9234
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8189
+	Loss_Epoch/train_phase/train_stream = 0.0754
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9502
 Epoch 4 ended.
-	Loss_Epoch/train_phase/train_stream = 0.7963
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8388
+	Loss_Epoch/train_phase/train_stream = 0.0688
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9530
 Epoch 5 ended.
-	Loss_Epoch/train_phase/train_stream = 0.7061
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8511
+	Loss_Epoch/train_phase/train_stream = 0.0648
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9549
 Epoch 6 ended.
-	Loss_Epoch/train_phase/train_stream = 0.6398
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8581
+	Loss_Epoch/train_phase/train_stream = 0.0614
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9562
 Epoch 7 ended.
-	Loss_Epoch/train_phase/train_stream = 0.5985
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8645
+	Loss_Epoch/train_phase/train_stream = 0.0590
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9574
 Epoch 8 ended.
-	Loss_Epoch/train_phase/train_stream = 0.5593
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8694
+	Loss_Epoch/train_phase/train_stream = 0.0572
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9583
 Epoch 9 ended.
-	Loss_Epoch/train_phase/train_stream = 0.5332
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8718
+	Loss_Epoch/train_phase/train_stream = 0.0557
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9589
 Epoch 10 ended.
-	Loss_Epoch/train_phase/train_stream = 0.5086
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8745
+	Loss_Epoch/train_phase/train_stream = 0.0541
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9596
 Epoch 11 ended.
-	Loss_Epoch/train_phase/train_stream = 0.4841
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8768
+	Loss_Epoch/train_phase/train_stream = 0.0532
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9601
 Epoch 12 ended.
-	Loss_Epoch/train_phase/train_stream = 0.4644
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8788
+	Loss_Epoch/train_phase/train_stream = 0.0522
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9606
 Epoch 13 ended.
-	Loss_Epoch/train_phase/train_stream = 0.4478
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8801
+	Loss_Epoch/train_phase/train_stream = 0.0513
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9610
 Epoch 14 ended.
-	Loss_Epoch/train_phase/train_stream = 0.4401
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8821
+	Loss_Epoch/train_phase/train_stream = 0.0507
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9613
 Epoch 15 ended.
-	Loss_Epoch/train_phase/train_stream = 0.4223
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8848
+	Loss_Epoch/train_phase/train_stream = 0.0500
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9618
 Epoch 16 ended.
-	Loss_Epoch/train_phase/train_stream = 0.4155
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8847
+	Loss_Epoch/train_phase/train_stream = 0.0496
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9619
 Epoch 17 ended.
-	Loss_Epoch/train_phase/train_stream = 0.4059
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8867
+	Loss_Epoch/train_phase/train_stream = 0.0487
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9623
 Epoch 18 ended.
-	Loss_Epoch/train_phase/train_stream = 0.4025
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8877
+	Loss_Epoch/train_phase/train_stream = 0.0484
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9625
 Epoch 19 ended.
-	Loss_Epoch/train_phase/train_stream = 0.3926
-	Top1_Acc_Epoch/train_phase/train_stream = 0.8896
+	Loss_Epoch/train_phase/train_stream = 0.0480
+	Top1_Acc_Epoch/train_phase/train_stream = 0.9627
 -- >> End of training phase << --
 -- >> Start of eval phase << --
 -- Starting eval on experience 0 from test stream --
 > Eval on experience 0 from test stream ended.
-	ExperienceBWT/eval_phase/test_stream/Exp000 = -0.0015
-	ExperienceForgetting/eval_phase/test_stream/Exp000 = 0.0015
-	Loss_Exp/eval_phase/test_stream/Exp000 = 0.4715
-	Top1_Acc_Exp/eval_phase/test_stream/Exp000 = 0.9826
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/11 = 0.9381
+	ExperienceBWT/eval_phase/test_stream/Exp000 = -0.0021
+	ExperienceForgetting/eval_phase/test_stream/Exp000 = 0.0021
+	Loss_Exp/eval_phase/test_stream/Exp000 = 0.0337
+	Top1_Acc_Exp/eval_phase/test_stream/Exp000 = 0.9834
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/11 = 0.9089
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/13 = 0.0000
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/2 = 0.7710
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/5 = 0.9943
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/6 = 0.9786
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/2 = 0.8519
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/5 = 0.9944
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/6 = 0.9843
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp000/1 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp000/14 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp000/15 = 0.0000
@@ -243,46 +243,46 @@ Epoch 19 ended.
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp000/6 = 0.0000
 -- Starting eval on experience 1 from test stream --
 > Eval on experience 1 from test stream ended.
-	Loss_Exp/eval_phase/test_stream/Exp001 = 0.3586
-	Top1_Acc_Exp/eval_phase/test_stream/Exp001 = 0.8245
+	Loss_Exp/eval_phase/test_stream/Exp001 = 0.0630
+	Top1_Acc_Exp/eval_phase/test_stream/Exp001 = 0.9483
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/11 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/13 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/2 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/5 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/6 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/1 = 0.9842
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/14 = 0.8040
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/15 = 0.7845
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/16 = 0.8798
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/17 = 0.9808
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/18 = 0.9695
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/19 = 0.9571
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/2 = 0.8428
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/5 = 0.5691
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/6 = 0.0947
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/14 = 0.6980
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/15 = 0.1466
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/16 = 0.9132
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/17 = 0.0000
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/18 = 0.9751
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/19 = 0.9758
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/2 = 0.9543
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/5 = 0.9680
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/6 = 0.9136
 -- >> End of eval phase << --
 	ConfusionMatrix_Stream/eval_phase/test_stream = 
 tensor([[     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
         [     0,    249,      0,      0,      0,      0,      0,      0,      0,
-              0,      0,      0,      0,      0,      0,      2,      0,      1,
-              0,      1],
-        [     0,     19,  78675,      0,      0,    175,      4,      0,      0,
-              0,      0,     80,      0,      0,   1536,   3416,   1467,   2087,
-           3149,   2910],
+              0,      0,      0,      0,      0,      0,      0,      1,      0,
+              0,      3],
+        [     0,      0,  89039,      0,      0,    433,    178,      0,      0,
+              0,      0,    275,      0,      0,     82,      1,     97,      0,
+           2717,    696],
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      2,    285,      0,      0, 290704,   1470,      0,      0,
-              0,      0,     17,      0,      0,   8577,    432,   2299,    165,
-             70,   1350],
-        [     0,    479,     94,      0,      0,   1583, 245764,      0,      0,
-              0,      0,   3716,      0,      0,      4,   7350,      0,     22,
-              0,   1775],
+        [     0,      0,    226,      0,      0, 302848,   1765,      0,      0,
+              0,      0,     17,      0,      0,    254,      0,    115,      0,
+              7,    139],
+        [     0,      0,     66,      0,      0,   1652, 255927,      0,      0,
+              0,      0,   2336,      0,      0,      2,      0,      1,      0,
+              1,    802],
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
@@ -295,49 +295,49 @@ tensor([[     0,      0,      0,      0,      0,      0,      0,      0,      0,
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,    434,      0,      0,     10,   1910,      0,      0,
-              0,      0,  36883,      0,      0,      2,     38,      7,     30,
-              0,      1],
+        [     0,      0,     91,      0,      0,     16,   3463,      0,      0,
+              0,      0,  35732,      0,      0,      0,      0,     13,      0,
+              0,      0],
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,     19,      0,      0,      0,      0,      0,      0,
-              0,      0,      5,      0,      0,      0,     12,      0,      0,
+        [     0,      0,     12,      0,      0,      0,      0,      0,      0,
+              0,      0,     24,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      1,     13,      0,      0,     62,      0,      0,      0,
-              0,      0,      0,      0,      0,   8254,     66,    415,     73,
-              0,   1382],
-        [     0,      0,      0,      0,      0,      0,      0,      0,      0,
-              0,      0,      0,      0,      0,      1,     91,      0,      7,
-              1,     16],
-        [     0,      0,     22,      0,      0,      0,      0,      0,      0,
-              0,      0,      0,      0,      0,   1010,     18,  15219,     21,
-              3,   1006],
-        [     0,      0,      0,      0,      0,      0,      0,      0,      0,
-              0,      0,      0,      0,      0,      0,      1,      0,     51,
-              0,      0],
-        [     0,      1,    567,      0,      0,     45,      0,      0,      0,
-              0,      0,      0,      0,      0,    295,     22,    187,    509,
-          54992,    103],
-        [     0,      0,     54,      0,      0,      0,      0,      0,      0,
-              0,      0,      0,      0,      0,    649,    369,    422,     87,
-              0,  35244]])
-	Loss_Stream/eval_phase/test_stream = 0.4366
-	StreamBWT/eval_phase/test_stream = -0.0015
-	StreamForgetting/eval_phase/test_stream = 0.0015
-	Top1_Acc_Stream/eval_phase/test_stream = 0.9337
+        [     0,      0,    105,      0,      0,    731,     89,      0,      0,
+              0,      0,      0,      0,      0,   7166,      0,    795,      0,
+             10,   1370],
+        [     0,      0,     22,      0,      0,      3,     64,      0,      0,
+              0,      0,      0,      0,      0,      1,     17,      1,      0,
+              0,      8],
+        [     0,      0,     47,      0,      0,     26,      7,      0,      0,
+              0,      0,      0,      0,      0,    260,      0,  15798,      0,
+              3,   1158],
+        [     0,      0,     25,      0,      0,      0,      0,      0,      0,
+              0,      0,      0,      0,      0,      0,      0,      0,      0,
+             24,      3],
+        [     0,      0,   1251,      0,      0,     15,     31,      0,      0,
+              0,      0,      0,      0,      0,     28,      0,     62,      0,
+          55308,     26],
+        [     0,      0,     64,      0,      0,     24,    420,      0,      0,
+              0,      0,      0,      0,      0,     48,      0,    335,      0,
+              0,  35934]])
+	Loss_Stream/eval_phase/test_stream = 0.0428
+	StreamBWT/eval_phase/test_stream = -0.0021
+	StreamForgetting/eval_phase/test_stream = 0.0021
+	Top1_Acc_Stream/eval_phase/test_stream = 0.9725
 -- >> Start of eval phase << --
 -- Starting eval on experience 0 from test stream --
 > Eval on experience 0 from test stream ended.
-	ExperienceBWT/eval_phase/test_stream/Exp000 = -0.0015
-	ExperienceForgetting/eval_phase/test_stream/Exp000 = 0.0015
-	Loss_Exp/eval_phase/test_stream/Exp000 = 0.4715
-	Top1_Acc_Exp/eval_phase/test_stream/Exp000 = 0.9826
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/11 = 0.9381
+	ExperienceBWT/eval_phase/test_stream/Exp000 = -0.0021
+	ExperienceForgetting/eval_phase/test_stream/Exp000 = 0.0021
+	Loss_Exp/eval_phase/test_stream/Exp000 = 0.0337
+	Top1_Acc_Exp/eval_phase/test_stream/Exp000 = 0.9834
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/11 = 0.9089
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/13 = 0.0000
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/2 = 0.7710
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/5 = 0.9943
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/6 = 0.9786
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/2 = 0.8519
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/5 = 0.9944
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp000/6 = 0.9843
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp000/1 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp000/14 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp000/15 = 0.0000
@@ -350,46 +350,46 @@ tensor([[     0,      0,      0,      0,      0,      0,      0,      0,      0,
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp000/6 = 0.0000
 -- Starting eval on experience 1 from test stream --
 > Eval on experience 1 from test stream ended.
-	Loss_Exp/eval_phase/test_stream/Exp001 = 0.3586
-	Top1_Acc_Exp/eval_phase/test_stream/Exp001 = 0.8245
+	Loss_Exp/eval_phase/test_stream/Exp001 = 0.0630
+	Top1_Acc_Exp/eval_phase/test_stream/Exp001 = 0.9483
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/11 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/13 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/2 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/5 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task000/Exp001/6 = 0.0000
 	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/1 = 0.9842
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/14 = 0.8040
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/15 = 0.7845
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/16 = 0.8798
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/17 = 0.9808
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/18 = 0.9695
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/19 = 0.9571
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/2 = 0.8428
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/5 = 0.5691
-	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/6 = 0.0947
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/14 = 0.6980
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/15 = 0.1466
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/16 = 0.9132
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/17 = 0.0000
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/18 = 0.9751
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/19 = 0.9758
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/2 = 0.9543
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/5 = 0.9680
+	Top1_ClassAcc_Exp/eval_phase/test_stream/Task001/Exp001/6 = 0.9136
 -- >> End of eval phase << --
 	ConfusionMatrix_Stream/eval_phase/test_stream = 
 tensor([[     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
         [     0,    249,      0,      0,      0,      0,      0,      0,      0,
-              0,      0,      0,      0,      0,      0,      2,      0,      1,
-              0,      1],
-        [     0,     19,  78675,      0,      0,    175,      4,      0,      0,
-              0,      0,     80,      0,      0,   1536,   3416,   1467,   2087,
-           3149,   2910],
+              0,      0,      0,      0,      0,      0,      0,      1,      0,
+              0,      3],
+        [     0,      0,  89039,      0,      0,    433,    178,      0,      0,
+              0,      0,    275,      0,      0,     82,      1,     97,      0,
+           2717,    696],
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      2,    285,      0,      0, 290704,   1470,      0,      0,
-              0,      0,     17,      0,      0,   8577,    432,   2299,    165,
-             70,   1350],
-        [     0,    479,     94,      0,      0,   1583, 245764,      0,      0,
-              0,      0,   3716,      0,      0,      4,   7350,      0,     22,
-              0,   1775],
+        [     0,      0,    226,      0,      0, 302848,   1765,      0,      0,
+              0,      0,     17,      0,      0,    254,      0,    115,      0,
+              7,    139],
+        [     0,      0,     66,      0,      0,   1652, 255927,      0,      0,
+              0,      0,   2336,      0,      0,      2,      0,      1,      0,
+              1,    802],
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
@@ -402,34 +402,34 @@ tensor([[     0,      0,      0,      0,      0,      0,      0,      0,      0,
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,    434,      0,      0,     10,   1910,      0,      0,
-              0,      0,  36883,      0,      0,      2,     38,      7,     30,
-              0,      1],
+        [     0,      0,     91,      0,      0,     16,   3463,      0,      0,
+              0,      0,  35732,      0,      0,      0,      0,     13,      0,
+              0,      0],
         [     0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0,      0,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      0,     19,      0,      0,      0,      0,      0,      0,
-              0,      0,      5,      0,      0,      0,     12,      0,      0,
+        [     0,      0,     12,      0,      0,      0,      0,      0,      0,
+              0,      0,     24,      0,      0,      0,      0,      0,      0,
               0,      0],
-        [     0,      1,     13,      0,      0,     62,      0,      0,      0,
-              0,      0,      0,      0,      0,   8254,     66,    415,     73,
-              0,   1382],
-        [     0,      0,      0,      0,      0,      0,      0,      0,      0,
-              0,      0,      0,      0,      0,      1,     91,      0,      7,
-              1,     16],
-        [     0,      0,     22,      0,      0,      0,      0,      0,      0,
-              0,      0,      0,      0,      0,   1010,     18,  15219,     21,
-              3,   1006],
-        [     0,      0,      0,      0,      0,      0,      0,      0,      0,
-              0,      0,      0,      0,      0,      0,      1,      0,     51,
-              0,      0],
-        [     0,      1,    567,      0,      0,     45,      0,      0,      0,
-              0,      0,      0,      0,      0,    295,     22,    187,    509,
-          54992,    103],
-        [     0,      0,     54,      0,      0,      0,      0,      0,      0,
-              0,      0,      0,      0,      0,    649,    369,    422,     87,
-              0,  35244]])
-	Loss_Stream/eval_phase/test_stream = 0.4366
-	StreamBWT/eval_phase/test_stream = -0.0015
-	StreamForgetting/eval_phase/test_stream = 0.0015
-	Top1_Acc_Stream/eval_phase/test_stream = 0.9337
+        [     0,      0,    105,      0,      0,    731,     89,      0,      0,
+              0,      0,      0,      0,      0,   7166,      0,    795,      0,
+             10,   1370],
+        [     0,      0,     22,      0,      0,      3,     64,      0,      0,
+              0,      0,      0,      0,      0,      1,     17,      1,      0,
+              0,      8],
+        [     0,      0,     47,      0,      0,     26,      7,      0,      0,
+              0,      0,      0,      0,      0,    260,      0,  15798,      0,
+              3,   1158],
+        [     0,      0,     25,      0,      0,      0,      0,      0,      0,
+              0,      0,      0,      0,      0,      0,      0,      0,      0,
+             24,      3],
+        [     0,      0,   1251,      0,      0,     15,     31,      0,      0,
+              0,      0,      0,      0,      0,     28,      0,     62,      0,
+          55308,     26],
+        [     0,      0,     64,      0,      0,     24,    420,      0,      0,
+              0,      0,      0,      0,      0,     48,      0,    335,      0,
+              0,  35934]])
+	Loss_Stream/eval_phase/test_stream = 0.0428
+	StreamBWT/eval_phase/test_stream = -0.0021
+	StreamForgetting/eval_phase/test_stream = 0.0021
+	Top1_Acc_Stream/eval_phase/test_stream = 0.9725
