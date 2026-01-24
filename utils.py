@@ -57,33 +57,46 @@ def class_acc_and_macro_f1_from_confmat(confmat: torch.Tensor):
     """
     confmat: (C, C) tensor where rows = true class, cols = predicted class.
     Returns:
-      - per_class_acc: dict {class_id: accuracy_i}
-      - per_class_f1:  dict {class_id: f1_i}
+      - per_class_acc: dict
+      - per_class_f1:  dict
       - macro_f1: float
+      - macro_precision: float  
+      - macro_recall: float  
     """
     cm = confmat.numpy().astype(np.int64)
     tp = np.diag(cm)
     row_sum = cm.sum(axis=1)  # support per class (true count)
     col_sum = cm.sum(axis=0)  # predicted count per class
 
-    # Per-class accuracy: TP / row_sum
+    # Per-class accuracy
     per_class_acc = {}
     for i in range(len(tp)):
         denom = row_sum[i]
         per_class_acc[i] = (tp[i] / denom) if denom > 0 else 0.0
 
-    # Precision / Recall / F1 per class from CM
+    # Precision / Recall / F1 per class
     per_class_f1 = {}
     f1_list = []
+    prec_list = [] 
+    rec_list = []  
+
     for i in range(len(tp)):
         fp = col_sum[i] - tp[i]
         fn = row_sum[i] - tp[i]
-        # precision and recall with 0-safe handling
+        
+        # Calculate with 0-safe handling
         prec = tp[i] / (tp[i] + fp) if (tp[i] + fp) > 0 else 0.0
         rec  = tp[i] / (tp[i] + fn) if (tp[i] + fn) > 0 else 0.0
         f1 = (2 * prec * rec) / (prec + rec) if (prec + rec) > 0 else 0.0
+        
         per_class_f1[i] = f1
         f1_list.append(f1)
+        prec_list.append(prec)
+        rec_list.append(rec)
 
+    # Calculate Macros
     macro_f1 = float(np.mean(f1_list)) if len(f1_list) > 0 else 0.0
-    return per_class_acc, per_class_f1, macro_f1
+    macro_prec = float(np.mean(prec_list)) if len(prec_list) > 0 else 0.0
+    macro_rec = float(np.mean(rec_list)) if len(rec_list) > 0 else 0.0  
+    
+    return per_class_acc, per_class_f1, macro_f1, macro_prec, macro_rec
