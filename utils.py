@@ -1,102 +1,151 @@
-import wandb
+import re
+import torch
 import numpy as np
 from avalanche.logging.wandb_logger import WandBLogger
 from avalanche.evaluation.metric_results import AlternativeValues, Image, TensorImage
-import torch
+from avalanche.logging import TextLogger
 from torch import Tensor
 from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
 
+# ==========================================
+# 1. WANDB MONKEY PATCH (Runs on Import)
+# ==========================================
 def log_single_metric_no_viz(self, name, value, x_plot):
-    self.step = x_plot
+    # Check WandB's internal step counter
+    current_wandb_step = self.wandb.run.step
+    
+    # If Avalanche's counter (x_plot) is behind WandB's counter, 
+    # force it to catch up.
+    if x_plot < current_wandb_step:
+        self.step = current_wandb_step
+    else:
+        self.step = x_plot
 
     if name.startswith("WeightCheckpoint"):
-        if self.log_artifacts:
-            self._log_checkpoint(name, value, x_plot)
         return
 
     if isinstance(value, AlternativeValues):
-        value = value.best_supported_value(
-            Image,
-            Tensor,
-            TensorImage,
-            Figure,
-            float,
-            int
-        )
+        value = value.best_supported_value(Image, Tensor, TensorImage, Figure, float, int)
 
     if not isinstance(value, (Image, TensorImage, Tensor, Figure, float, int)):
         return
 
-    if isinstance(value, Image):
-        self.wandb.log({name: self.wandb.Image(value)}, step=self.step)
+    if isinstance(value, Tensor):
+        if "ConfusionMatrix" in name:
+            # --- HEATMAP VISUALIZATION CODE ---
+            val_np = value.cpu().numpy()
+            
+            fig = plt.figure(figsize=(12, 12))
+            ax = fig.add_subplot(111)
+            
+            # Use a blue colormap for better readability
+            cax = ax.matshow(val_np, cmap='Blues')
+            fig.colorbar(cax)
+            
+            ax.set_title(name.split('/')[-1], pad=20)
+            ax.set_xlabel('Predicted Label')
+            ax.set_ylabel('True Label')
+            
+            # Ticks
+            num_classes = val_np.shape[0]
+            ax.set_xticks(np.arange(num_classes))
+            ax.set_yticks(np.arange(num_classes))
+            
+            # Add numbers inside the heatmap squares
+            thresh = val_np.max() / 2.
+            for i in range(val_np.shape[0]):
+                for j in range(val_np.shape[1]):
+                    count = int(val_np[i, j])
+                    if count > 0:
+                        ax.text(j, i, str(count),
+                                ha="center", va="center",
+                                color="white" if val_np[i, j] > thresh else "black",
+                                fontsize=8)
 
-    elif isinstance(value, Tensor):
-        value = np.histogram(value.view(-1).cpu().numpy())
-        self.wandb.log({name: self.wandb.Histogram(np_histogram=value)}, step=self.step)
+            self.wandb.log({name: self.wandb.Image(fig)}, step=self.step)
+            plt.close(fig)
+            # ----------------------------------
+            
+        else:
+            value = np.histogram(value.view(-1).cpu().numpy())
+            self.wandb.log({name: self.wandb.Histogram(np_histogram=value)}, step=self.step)
 
-    elif isinstance(value, (float, int, Figure)):
+    elif isinstance(value, (float, int)):
         self.wandb.log({name: value}, step=self.step)
+    
+    pass
 
-    elif isinstance(value, TensorImage):
-        self.wandb.log({name: self.wandb.Image(np.array(value))}, step=self.step)
-
-# Apply monkey patch
+# Apply patch immediately
 WandBLogger.log_single_metric = log_single_metric_no_viz
 
-
-
-def extract_stream_confmat(metrics_dict):
-    # key example: "ConfusionMatrix_Stream/eval_phase/test_stream"
+# ==========================================
+# 2. HELPER FUNCTIONS
+# ==========================================
+def extract_stream_confmat(metrics_dict, mode='eval'):
+    """
+    Extracts the Confusion Matrix based on the mode (train or eval).
+    """
+    # 1. Decide which key to look for based on mode
+    if mode == 'train':
+        keyword = "train_phase/train_stream"
+    else:
+        keyword = "eval_phase/test_stream"
+    
+    # 2. Search the metrics dictionary
     for k, v in metrics_dict.items():
-        if "ConfusionMatrix_Stream/eval_phase/test_stream" in k:
-            # v is a torch.Tensor
+        if "ConfusionMatrix_Stream" in k and keyword in k:
             return v.detach().cpu().clone()
+            
     return None
 
-def class_acc_and_macro_f1_from_confmat(confmat: torch.Tensor):
+def calculate_smart_f1(conf_matrix, strict=True):
     """
-    confmat: (C, C) tensor where rows = true class, cols = predicted class.
-    Returns:
-      - per_class_acc: dict
-      - per_class_f1:  dict
-      - macro_f1: float
-      - macro_precision: float  
-      - macro_recall: float  
+    Args:
+        strict (bool): 
+            True = Local F1 (Ignores missing classes).
+            False = Global F1 (Penalizes missing classes with 0.0).
     """
-    cm = confmat.numpy().astype(np.int64)
-    tp = np.diag(cm)
-    row_sum = cm.sum(axis=1)  # support per class (true count)
-    col_sum = cm.sum(axis=0)  # predicted count per class
-
-    # Per-class accuracy
-    per_class_acc = {}
-    for i in range(len(tp)):
-        denom = row_sum[i]
-        per_class_acc[i] = (tp[i] / denom) if denom > 0 else 0.0
-
-    # Precision / Recall / F1 per class
-    per_class_f1 = {}
-    f1_list = []
-    prec_list = [] 
-    rec_list = []  
-
-    for i in range(len(tp)):
-        fp = col_sum[i] - tp[i]
-        fn = row_sum[i] - tp[i]
-        
-        # Calculate with 0-safe handling
-        prec = tp[i] / (tp[i] + fp) if (tp[i] + fp) > 0 else 0.0
-        rec  = tp[i] / (tp[i] + fn) if (tp[i] + fn) > 0 else 0.0
-        f1 = (2 * prec * rec) / (prec + rec) if (prec + rec) > 0 else 0.0
-        
-        per_class_f1[i] = f1
-        f1_list.append(f1)
-        prec_list.append(prec)
-        rec_list.append(rec)
-
-    # Calculate Macros
-    macro_f1 = float(np.mean(f1_list)) if len(f1_list) > 0 else 0.0
-    macro_prec = float(np.mean(prec_list)) if len(prec_list) > 0 else 0.0
-    macro_rec = float(np.mean(rec_list)) if len(rec_list) > 0 else 0.0  
+    conf_matrix = conf_matrix.float().cpu().numpy()
     
-    return per_class_acc, per_class_f1, macro_f1, macro_prec, macro_rec
+    tp = np.diag(conf_matrix)
+    pred_sum = np.sum(conf_matrix, axis=0)
+    true_sum = np.sum(conf_matrix, axis=1) # Support
+    
+    fp = pred_sum - tp
+    fn = true_sum - tp
+
+    if strict:
+        # --- LOCAL (STRICT) MODE ---
+        # Only evaluate classes that exist in this batch or were predicted
+        valid_mask = (true_sum > 0) | (pred_sum > 0)
+        if np.sum(valid_mask) == 0: return 0.0, 0.0, 0.0
+        
+        # Filter the arrays
+        tp = tp[valid_mask]
+        fp = fp[valid_mask]
+        fn = fn[valid_mask]
+    else:
+        # --- GLOBAL MODE ---
+        # Evaluate ALL classes. Rows with 0 support will result in 0.0 F1.
+        pass
+
+    # Safe division
+    precision = np.divide(tp, tp + fp, out=np.zeros_like(tp), where=(tp + fp) != 0)
+    recall = np.divide(tp, tp + fn, out=np.zeros_like(tp), where=(tp + fn) != 0)
+    
+    f1 = 2 * (precision * recall) / (precision + recall)
+    f1 = np.nan_to_num(f1) 
+
+    return np.mean(f1), np.mean(precision), np.mean(recall)
+
+# ==========================================
+# 3. LOGGERS (Moved from Main)
+# ==========================================
+class NaturalSortTextLogger(TextLogger):
+    def log_metrics(self, metric_values):
+        def natural_keys(metric):
+            text = metric.name
+            return [int(s) if s.isdigit() else s.lower() for s in re.split(r'(\d+)', text)]
+        sorted_metrics = sorted(metric_values, key=natural_keys)
+        super().log_metrics(sorted_metrics)
