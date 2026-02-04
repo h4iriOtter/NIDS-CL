@@ -1,6 +1,6 @@
 import re
-import torch
 import numpy as np
+import torch
 from avalanche.logging.wandb_logger import WandBLogger
 from avalanche.evaluation.metric_results import AlternativeValues, Image, TensorImage
 from avalanche.logging import TextLogger
@@ -99,44 +99,90 @@ def extract_stream_confmat(metrics_dict, mode='eval'):
             
     return None
 
-def calculate_smart_f1(conf_matrix, strict=True):
+# If using avalanche way
+#def calculate_smart_f1(conf_matrix, strict=True):
     """
     Args:
         strict (bool): 
             True = Local F1 (Ignores missing classes).
             False = Global F1 (Penalizes missing classes with 0.0).
     """
-    conf_matrix = conf_matrix.float().cpu().numpy()
+   # conf_matrix = conf_matrix.float().cpu().numpy()
     
+   # tp = np.diag(conf_matrix)
+   # pred_sum = np.sum(conf_matrix, axis=0)
+   # true_sum = np.sum(conf_matrix, axis=1) # Support
+    
+   # fp = pred_sum - tp
+   # fn = true_sum - tp
+
+   # if strict:
+        # --- LOCAL (STRICT) MODE ---
+        # Only evaluate classes that exist in this batch or were predicted
+      #  valid_mask = (true_sum > 0) | (pred_sum > 0)
+      #  if np.sum(valid_mask) == 0: return 0.0, 0.0, 0.0
+        
+        # Filter the arrays
+     #   tp = tp[valid_mask]
+     #   fp = fp[valid_mask]
+     #   fn = fn[valid_mask]
+   # else:
+        # --- GLOBAL MODE ---
+        # Evaluate ALL classes. Rows with 0 support will result in 0.0 F1.
+     #   pass
+
+    # Safe division
+   # precision = np.divide(tp, tp + fp, out=np.zeros_like(tp), where=(tp + fp) != 0)
+   # recall = np.divide(tp, tp + fn, out=np.zeros_like(tp), where=(tp + fn) != 0)
+    
+   # f1 = 2 * (precision * recall) / (precision + recall)
+   # f1 = np.nan_to_num(f1) 
+
+   # return np.mean(f1), np.mean(precision), np.mean(recall)
+
+def calculate_smart_f1(conf_matrix, strict=True):
+    """
+    Calculates F1, Precision, and Recall from a Confusion Matrix.
+    Handles both PyTorch Tensors and NumPy Arrays.
+    """
+    # 1. Handle input types safely
+    if isinstance(conf_matrix, torch.Tensor):
+        conf_matrix = conf_matrix.float().cpu().numpy()
+    else:
+        conf_matrix = np.array(conf_matrix, dtype=float)
+
+    # 2. Extract TP, FP, FN
     tp = np.diag(conf_matrix)
     pred_sum = np.sum(conf_matrix, axis=0)
-    true_sum = np.sum(conf_matrix, axis=1) # Support
+    true_sum = np.sum(conf_matrix, axis=1)
     
     fp = pred_sum - tp
     fn = true_sum - tp
 
+    # 3. Handle Strict Mode (Task-Specific) vs Global Mode
     if strict:
-        # --- LOCAL (STRICT) MODE ---
-        # Only evaluate classes that exist in this batch or were predicted
+        # Only calculate for classes that actually appeared in this task
         valid_mask = (true_sum > 0) | (pred_sum > 0)
-        if np.sum(valid_mask) == 0: return 0.0, 0.0, 0.0
         
-        # Filter the arrays
+        if np.sum(valid_mask) == 0: 
+            return 0.0, 0.0, 0.0
+        
         tp = tp[valid_mask]
         fp = fp[valid_mask]
         fn = fn[valid_mask]
-    else:
-        # --- GLOBAL MODE ---
-        # Evaluate ALL classes. Rows with 0 support will result in 0.0 F1.
-        pass
 
-    # Safe division
+    # 4. Safe Division for Precision & Recall
+    #    "out=np.zeros_like" tells numpy: "If dividing by zero, return 0 instead of crashing"
     precision = np.divide(tp, tp + fp, out=np.zeros_like(tp), where=(tp + fp) != 0)
     recall = np.divide(tp, tp + fn, out=np.zeros_like(tp), where=(tp + fn) != 0)
     
-    f1 = 2 * (precision * recall) / (precision + recall)
-    f1 = np.nan_to_num(f1) 
+    # 5. Safe Division for F1 (This fixes your RuntimeWarning)
+    numerator = 2 * (precision * recall)
+    denominator = precision + recall
+    
+    f1 = np.divide(numerator, denominator, out=np.zeros_like(numerator), where=denominator != 0)
 
+    # 6. Return Averages
     return np.mean(f1), np.mean(precision), np.mean(recall)
 
 # ==========================================
