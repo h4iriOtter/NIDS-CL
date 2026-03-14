@@ -31,17 +31,17 @@ from avalanche.logging import  InteractiveLogger, WandBLogger
 from avalanche.training.storage_policy import ReservoirSamplingBuffer
 
 # ==========================================
-# CONFIGURATION
+# CONFIGURATION EXPERIMENT 1 (4GB VRAM / 4MB STORAGE)
 # ==========================================
 TASK_ORDER = ['NF-UNSW-NB15-v2', 'NF-CSE-CIC-IDS2018-v2', 'NF-ToN-IoT-v2']
 TRAIN_BATCH_SIZE = 4096  # Speed up training (GPU friendly)
-EVAL_BATCH_SIZE = 4096  # 1 for Simulated Edge
-MEM_SIZE = 10000    # The size of the Replay Buffer (Memory of past tasks)
-EPOCHS = 20         # 20 Epochs is sufficient for testing convergence
-EVAL_FREQ = -1       # Evaluate every 1 epoch to generate high-resolution learning curves
+EVAL_BATCH_SIZE = 1  # 1 for Simulated Edge
+MEM_SIZE = 23300    # The size of the Replay Buffer (Memory of past tasks)
+EPOCHS = 30         # 30 Epochs is sufficient to avoid overfitting
+EVAL_FREQ = 2       # Evaluate every 2 epoch to generate high-resolution learning curves
 NUM_CLASSES = 20    # Fixed it to 20 eventhough class 13 is not used in this since we using dynamic seen
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-LOG_FILE = 'training_log_replay_balanced_optimized.txt'
+LOG_FILE = 'results_run1_4GB_4MB.txt'
 
 # ==========================================
 # PART 1: OPTIMIZED PLUGIN 
@@ -244,7 +244,7 @@ def main():
         NaturalSortTextLogger(open(LOG_FILE, 'w')), 
         WandBLogger( 
             project_name="NIDS_Continual_Learning",
-            run_name="Balanced_Replay_20epochs", 
+            run_name="Run1_4GB_4MB", 
             params={"config": {"strategy": "ReplayBalanced", "epochs": EPOCHS}}
         )
     ]
@@ -294,6 +294,34 @@ def main():
         print('   Finalizing Task...')
         current_test_stream = benchmark.test_stream[:task_id+1]
         strategy.eval(current_test_stream)
+
+    # ==========================================
+    # HARDWARE & MEMORY REPORT
+    # ==========================================
+    print("\n==========================================")
+    print("        HARDWARE & MEMORY REPORT")
+    print("==========================================")
+    
+    # 1. Calculate Exact Buffer Storage (Bytes)
+    bytes_per_feature = 4 # float32 takes 4 bytes
+    bytes_per_label = 8   # int64 takes 8 bytes
+    bytes_per_sample = (IN_DIM * bytes_per_feature) + bytes_per_label
+    total_buffer_bytes = MEM_SIZE * bytes_per_sample
+    buffer_mb = total_buffer_bytes / (1024 * 1024)
+
+    print(f"[Storage] Replay Buffer Target: {MEM_SIZE} samples")
+    print(f"[Storage] Exact Buffer Size: {total_buffer_bytes} Bytes ({buffer_mb:.4f} MB)")
+
+    # 2. Calculate Peak GPU VRAM (Compute Memory)
+    if torch.cuda.is_available():
+        peak_vram_mb = torch.cuda.max_memory_allocated() / (1024 * 1024)
+        peak_vram_gb = peak_vram_mb / 1024
+        print(f"[Compute] Batch Size Used: {TRAIN_BATCH_SIZE}")
+        print(f"[Compute] Peak GPU VRAM Used: {peak_vram_mb:.2f} MB ({peak_vram_gb:.2f} GB)")
+    else:
+        print("[Compute] CPU Mode. GPU VRAM not applicable.")
+    print("==========================================\n")
+    # ---------------------------------
 
     print("\n[Complete] Run finished successfully.")
     wandb.finish()
