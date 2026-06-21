@@ -5,14 +5,15 @@ from torch.utils.data import TensorDataset, DataLoader
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 import numpy as np
 import os
-import re
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import confusion_matrix as sklearn_confusion_matrix
 import wandb
+import time
 
 # --- CUSTOM IMPORTS ---
 from model import BigNet
-import utils
-from utils import NaturalSortTextLogger, calculate_smart_f1, extract_stream_confmat
+from utils import NaturalSortTextLogger, calculate_smart_f1
+import matplotlib.pyplot as plt
 
 # --- AVALANCHE IMPORTS ---
 # Benchmark: The container that holds your streams of data (Train, Test, Val)
@@ -24,24 +25,23 @@ from avalanche.training.supervised import Naive
 from avalanche.training.plugins import ReplayPlugin, EvaluationPlugin, LRSchedulerPlugin, SupervisedPlugin
 # Metrics: Standard CL metrics provided by Avalanche
 from avalanche.evaluation.metrics import (
-    forgetting_metrics, accuracy_metrics, loss_metrics,
-    StreamConfusionMatrix, #class_accuracy_metrics,
+    forgetting_metrics, accuracy_metrics, loss_metrics #class_accuracy_metrics,
 )
 from avalanche.logging import  InteractiveLogger, WandBLogger
 from avalanche.training.storage_policy import ReservoirSamplingBuffer
 
 # ==========================================
-# CONFIGURATION EXPERIMENT 1 (4GB VRAM / 4MB STORAGE)
+# CONFIGURATION
 # ==========================================
 TASK_ORDER = ['NF-UNSW-NB15-v2', 'NF-CSE-CIC-IDS2018-v2', 'NF-ToN-IoT-v2']
 TRAIN_BATCH_SIZE = 4096  # Speed up training (GPU friendly)
-EVAL_BATCH_SIZE = 1  # 1 for Simulated Edge
-MEM_SIZE = 23300    # The size of the Replay Buffer (Memory of past tasks)
+EVAL_BATCH_SIZE = 4096  # Higher batch size for faster evaluation
+MEM_SIZE = 468    # The size of the Replay Buffer (Memory of past tasks)
 EPOCHS = 30         # 30 Epochs is sufficient to avoid overfitting
 EVAL_FREQ = 2       # Evaluate every 2 epoch to generate high-resolution learning curves
 NUM_CLASSES = 20    # Fixed it to 20 eventhough class 13 is not used in this since we using dynamic seen
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-LOG_FILE = 'results_run1_4GB_4MB.txt'
+LOG_FILE = 'results_run1_4GB_128KB.txt'
 
 # ==========================================
 # PART 1: OPTIMIZED PLUGIN 
@@ -51,85 +51,139 @@ class SmartContextManager(SupervisedPlugin):
     def __init__(self, num_classes):
         super().__init__()
         self.num_classes = num_classes
-        self.seen_classes_so_far = set() 
+        self.seen_classes_so_far = set()
+        
+        # Buffers for manual calculation
+        self.local_preds = []
+        self.local_true = []
+        self.global_preds = []
+        self.global_true = []
 
     def before_training_exp(self, strategy, **kwargs):
+        # --- (Existing Weight Logic) ---
         print("\n[SmartContext] Analyzing dataset statistics...")
-        
-        # 1. Fast Scan (CPU safe)
         try:
             y_data = torch.as_tensor(strategy.experience.dataset.targets).cpu()
         except:
-            loader = DataLoader(
-                strategy.experience.dataset, batch_size=20000, 
-                num_workers=4, pin_memory=False
-            )
+            loader = DataLoader(strategy.experience.dataset, batch_size=20000, num_workers=4)
             y_data = torch.cat([batch[1].cpu() for batch in loader])
-
+        
         y_np = y_data.numpy()
-
-        # 2. Update Seen Classes
         self.seen_classes_so_far.update(np.unique(y_np).tolist())
         print(f"   [Metrics] Seen Classes: {sorted(list(self.seen_classes_so_far))}")
-
-        # 3. Dynamic Weighting
+        
+        # Calculate Weights (With your Cap=50.0)
         classes, counts = np.unique(y_np, return_counts=True)
-        if len(classes) == 0: return
+        if len(classes) > 0:
+            raw_weights = sum(counts) / (len(classes) * counts)
+            full_weights = torch.ones(self.num_classes).to(strategy.device)
+            for cls, w in zip(classes, raw_weights):
+                if cls < self.num_classes:
+                    full_weights[int(cls)] = min(float(w) ** 0.5, 50.0) # Sqrt + Cap
+            strategy._criterion = nn.CrossEntropyLoss(weight=full_weights, label_smoothing=0.1)
+            print(f"   [Weights] Updated & Smoothed for {len(classes)} classes.")
 
-        raw_weights = sum(counts) / (len(classes) * counts)
-        full_weights = torch.ones(self.num_classes).to(strategy.device)
+    def before_eval(self, strategy, **kwargs):
+        # Reset Global (Stream) buffers at start of full evaluation
+        self.global_preds = []
+        self.global_true = []
 
-        for cls, w in zip(classes, raw_weights):
-            if cls < self.num_classes:
-                full_weights[int(cls)] = min(float(w), 1000.0)
+    def before_eval_exp(self, strategy, **kwargs):
+        # Reset Local (Task) buffers at start of each task
+        self.local_preds = []
+        self.local_true = []
+
+    def after_eval_iteration(self, strategy, **kwargs):
+        # --- MANUALLY COLLECT PREDICTIONS (Bypasses Avalanche Bugs) ---
+        # Get predictions (argmax of logits) and true labels
+        preds = torch.argmax(strategy.mb_output, dim=1).cpu().numpy()
+        true_y = strategy.mb_y.cpu().numpy()
         
-        strategy._criterion = nn.CrossEntropyLoss(weight=full_weights)
-
-        print(f"   [Weights] Updated Loss Weights for {len(classes)} classes.")
-
-    def after_training_epoch(self, strategy, **kwargs):
-        # Get metrics
-        metrics = strategy.evaluator.get_last_metrics()
-        # Note: Ensure you updated extract_stream_confmat in utils.py to handle mode='train'
-        conf_mat = extract_stream_confmat(metrics, mode='train')
-        
-        if conf_mat is not None:
-            # --- CALCULATE BOTH AT THE SAME TIME ---
-            f1_local, _, _ = calculate_smart_f1(conf_mat, strict=True)
-            f1_global, _, _ = calculate_smart_f1(conf_mat, strict=False)
-            
-            # Log to WandB with distinct names
-            wandb.log({
-                "F1_Score/Train_Local": f1_local,    # High score (Current Task)
-                "F1_Score/Train_Global": f1_global,  # Low score (System Health)
-                "Epoch": strategy.clock.train_exp_epochs
-            })
-            
-            print(f"   [Epoch {strategy.clock.train_exp_epochs}] Train F1 -> Local: {f1_local:.4f} | Global: {f1_global:.4f}")
+        # Append to buffers
+        self.local_preds.append(preds)
+        self.local_true.append(true_y)
+        self.global_preds.append(preds)
+        self.global_true.append(true_y)
 
     def after_eval_exp(self, strategy, **kwargs):
-        metrics = strategy.evaluator.get_last_metrics()
-        conf_mat = extract_stream_confmat(metrics, mode='eval')
+        # --- CALCULATE LOCAL F1 (Task Performance) ---
+        curr_id = strategy.experience.current_experience
         
-        if conf_mat is not None:
-            # --- CALCULATE BOTH AT THE SAME TIME ---
-            f1_local, prec_local, rec_local = calculate_smart_f1(conf_mat, strict=True)
-            f1_global, prec_global, rec_global = calculate_smart_f1(conf_mat, strict=False)
+        # Stack batches
+        y_pred = np.concatenate(self.local_preds)
+        y_true = np.concatenate(self.local_true)
+        
+        # Compute Matrix Manually
+        cm = sklearn_confusion_matrix(y_true, y_pred, labels=list(range(self.num_classes)))
+        
+        # Calculate Scores
+        f1_local, prec, rec = calculate_smart_f1(cm, strict=True)
+        
+        # Log
+        wandb.log({
+            f"F1_Score/Task_{curr_id}_Local": f1_local,
+            f"Precision/Task_{curr_id}": prec,
+            f"Recall/Task_{curr_id}": rec
+        })
+        msg = f"\t[Task {curr_id}] Local F1: {f1_local:.4f} | Recall: {rec:.4f}"
+        print(msg)
+        with open("output.log", 'a') as f: f.write(msg + "\n")
+
+    def after_eval(self, strategy, **kwargs):
+        # --- CALCULATE GLOBAL RESULTS (System Stability) ---
+        if len(self.global_preds) > 0:
+            y_pred = np.concatenate(self.global_preds)
+            y_true = np.concatenate(self.global_true)
             
-            # Log to WandB
-            wandb.log({
-                "F1_Score/Test_Local": f1_local,
-                "F1_Score/Test_Global": f1_global,
-                "Precision/Test_Local": prec_local,
-                "Recall/Test_Local": rec_local,
-                "Precision/Test_Global": prec_global,
-                "Recall/Test_Global": rec_global,
-            })
+            # 1. Calculate Matrix & Scores
+            cm = sklearn_confusion_matrix(y_true, y_pred, labels=list(range(self.num_classes)))
+            f1_global, _, _ = calculate_smart_f1(cm, strict=False)
             
-            msg = f"\n\t[Smart Metrics] Local F1: {f1_local:.4f} (Task Performance) | Global F1: {f1_global:.4f} (System Stability)"
+            wandb.log({"F1_Score/System_Global": f1_global})
+
+            # ---------------------------------------------------------
+            # 2. PRINT MATRIX TO CONSOLE (TEXT)
+            # ---------------------------------------------------------
+            print("\n" + "="*40)
+            print(f"   SYSTEM CONFUSION MATRIX (20x20)")
+            print("="*40)
+            # Force Numpy to print the full matrix without truncation or wrapping
+            with np.printoptions(linewidth=200, edgeitems=20, formatter={'float': '{: 0.0f}'.format}):
+                print(cm)
+            print("="*40 + "\n")
+
+            # ---------------------------------------------------------
+            # 3. GENERATE WANDB HEATMAP (IMAGE)
+            # ---------------------------------------------------------
+            try:
+                fig, ax = plt.subplots(figsize=(12, 12))
+                cax = ax.matshow(cm, cmap='Blues')
+                fig.colorbar(cax)
+                
+                ax.set_title(f"Confusion Matrix (System)")
+                ax.set_ylabel('True Label')
+                ax.set_xlabel('Predicted Label')
+                ax.set_xticks(np.arange(self.num_classes))
+                ax.set_yticks(np.arange(self.num_classes))
+                
+                # Draw numbers
+                thresh = cm.max() / 2.
+                for i in range(cm.shape[0]):
+                    for j in range(cm.shape[1]):
+                        count = int(cm[i, j])
+                        if count > 0: 
+                            ax.text(j, i, str(count), ha="center", va="center",
+                                    color="white" if cm[i, j] > thresh else "black", fontsize=8)
+                
+                wandb.log({"Confusion_Matrix_Image": wandb.Image(fig)})
+                plt.close(fig)
+            except Exception as e:
+                print(f"[Warning] Failed to generate Heatmap: {e}")
+
+            # ---------------------------------------------------------
+
+            msg = f"\t[System] Global F1: {f1_global:.4f} (Stability)"
             print(msg)
-            
-            # Save to text log
             with open("output.log", 'a') as f: f.write(msg + "\n")
 
 # ==========================================
@@ -244,7 +298,7 @@ def main():
         NaturalSortTextLogger(open(LOG_FILE, 'w')), 
         WandBLogger( 
             project_name="NIDS_Continual_Learning",
-            run_name="Run1_4GB_4MB", 
+            run_name="Run1_4GB_128KB",
             params={"config": {"strategy": "ReplayBalanced", "epochs": EPOCHS}}
         )
     ]
@@ -254,7 +308,6 @@ def main():
         loss_metrics(minibatch=False, epoch=True, experience=True, stream=True),
         forgetting_metrics(experience=True, stream=True), 
         # class_accuracy_metrics(experience=True), commented out because generate too many logs
-        StreamConfusionMatrix(num_classes=NUM_CLASSES, save_image=False), 
         loggers=logger
     )
 
@@ -265,6 +318,7 @@ def main():
     criterion = nn.CrossEntropyLoss()
     scheduler = ReduceLROnPlateau(optimizer, 'min', patience=3, factor=0.1)
     storage_policy = ReservoirSamplingBuffer(max_size=MEM_SIZE)
+    smart_context_plugin = SmartContextManager(num_classes=NUM_CLASSES)
 
     strategy = Naive(
         model=model,
@@ -277,24 +331,37 @@ def main():
         evaluator=eval_plugin,
         eval_every=EVAL_FREQ,
         plugins=[
-            LRSchedulerPlugin(scheduler=scheduler, metric="train_loss", step_granularity="epoch", reset_scheduler=True, reset_lr=True),
-            ReplayPlugin(mem_size=MEM_SIZE, storage_policy=storage_policy), 
-            SmartContextManager(num_classes=NUM_CLASSES)
+            LRSchedulerPlugin(scheduler=scheduler, metric="train_loss", step_granularity="epoch", reset_scheduler=True, reset_lr=False),
+            ReplayPlugin(mem_size=MEM_SIZE, storage_policy=storage_policy)
         ]
     )
 
+    strategy.plugins.append(smart_context_plugin)   
+
     # 6. Execution Loop
     print("\n[Execution] Starting Stream...")
+
+    experiment_start_time = time.time()
+
     for experience in benchmark.train_stream:
         task_id = experience.current_experience
         print(f"\n>>> EXPERIENCE {task_id}: {TASK_ORDER[task_id]}")
 
-        strategy.train(experience)
+        # We only want to evaluate on tasks we have seen so far
+        current_test_stream = benchmark.test_stream[:task_id+1]
+
+        # Pass it into the train method so EVAL_FREQ actually triggers
+        strategy.train(experience, eval_streams=[current_test_stream])
         
         print('   Finalizing Task...')
-        current_test_stream = benchmark.test_stream[:task_id+1]
         strategy.eval(current_test_stream)
 
+    experiment_end_time = time.time()
+    total_duration_sec = experiment_end_time - experiment_start_time
+    hours, rem = divmod(total_duration_sec, 3600)
+    minutes, seconds = divmod(rem, 60)
+    time_str = f"{int(hours)}h {int(minutes)}m {seconds:.2f}s"
+    
     # ==========================================
     # HARDWARE & MEMORY REPORT
     # ==========================================
@@ -302,6 +369,8 @@ def main():
     print("        HARDWARE & MEMORY REPORT")
     print("==========================================")
     
+    print(f"[Hardware] Total Training & Eval Time: {time_str}")
+
     # 1. Calculate Exact Buffer Storage (Bytes)
     bytes_per_feature = 4 # float32 takes 4 bytes
     bytes_per_label = 8   # int64 takes 8 bytes
@@ -321,7 +390,62 @@ def main():
     else:
         print("[Compute] CPU Mode. GPU VRAM not applicable.")
     print("==========================================\n")
-    # ---------------------------------
+
+    # 3. EDGE INFERENCE LATENCY BENCHMARK (Batch Size = 1)
+    print("\n[Latency] Running Edge Inference Benchmark with MIXED REAL DATA...")
+    model.eval()
+    
+    # Grab a mix of samples from ALL THREE test datasets
+    real_packets_list = []
+    
+    # Calculate how many samples to pull from each task (333, 333, and 334)
+    samples_per_task = 1000 // len(test_ds)
+    remainder = 1000 % len(test_ds)
+    
+    for i, ds in enumerate(test_ds):
+        # Add the remainder to the last dataset to ensure exactly 1000 total
+        batch_size = samples_per_task + (remainder if i == len(test_ds) - 1 else 0)
+        
+        # Pull a random batch from this specific dataset
+        loader = DataLoader(ds, batch_size=batch_size, shuffle=True)
+        x_batch, _, _ = next(iter(loader))
+        real_packets_list.append(x_batch)
+        
+    # Combine them into one single tensor of exactly 1000 mixed samples
+    real_packets = torch.cat(real_packets_list, dim=0)
+    
+    # Move the combined packets to the GPU *before* starting the timer
+    real_packets = real_packets.to(DEVICE)
+    
+    with torch.no_grad():
+        # A. GPU Warmup (Crucial for accurate PyTorch timing)
+        for i in range(100):
+            _ = model(real_packets[i:i+1])
+        if DEVICE == "cuda": torch.cuda.synchronize()
+        
+        # B. Actual Latency Measurement
+        start_time = time.perf_counter()
+        for i in range(1000):
+            _ = model(real_packets[i:i+1])
+        if DEVICE == "cuda": torch.cuda.synchronize()
+        end_time = time.perf_counter()
+
+    # Calculate milliseconds per packet
+    total_time_ms = (end_time - start_time) * 1000
+    avg_latency_ms = total_time_ms / 1000
+    
+    print(f"[Latency] Processed {len(real_packets)} MIXED real network packets sequentially.")
+    print(f"[Latency] Average Inference Time: {avg_latency_ms:.4f} milliseconds per packet")
+    print("==========================================\n")
+
+    print("[WandB] Syncing Hardware & Memory Report to dashboard...")
+    wandb.log({
+        "Hardware/Buffer_Size_MB": buffer_mb,
+        "Hardware/Peak_VRAM_GB": peak_vram_mb / 1024 if torch.cuda.is_available() else 0,
+        "Hardware/Inference_Latency_ms": avg_latency_ms,
+        "Hardware/Total_Duration_Seconds": total_duration_sec,
+        "Hardware/Total_Duration_Minutes": total_duration_sec / 60.0
+    })
 
     print("\n[Complete] Run finished successfully.")
     wandb.finish()

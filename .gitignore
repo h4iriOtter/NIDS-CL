@@ -215,3 +215,4 @@ benchmark_data/
 saved_models/
 __pycache__/
 wandb/
+benchmark_datawithmalaya/
